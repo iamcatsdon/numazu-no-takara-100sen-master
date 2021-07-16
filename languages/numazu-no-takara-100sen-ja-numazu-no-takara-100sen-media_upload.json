@@ -1,0 +1,9 @@
+{
+	"domain": "numazu-no-takara-100sen",
+	"locale_data": {
+		"numazu-no-takara-100sen": {
+			"": { "domain": "numazu-no-takara-100sen" },
+			"Do you want to delete the image?": ["画像を削除しますか？"]
+		}
+	}
+}
