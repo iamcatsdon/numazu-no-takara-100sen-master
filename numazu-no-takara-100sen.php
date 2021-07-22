@@ -3,7 +3,7 @@
   Plugin Name: ぬまづの宝100選
   Plugin URI: 
   Description: 当プログラムは、静岡県沼津市が主催している企画「ぬまづの宝100選」の写真を登録し、写真の取得、点数の取得、認定ランクの取得、認定証の取得を行う事ができるWordPress用のプラグインです。
-  Version: 0.1.1
+  Version: 0.1.2
   Author: かっつ丼
   Author URI: https://numazudon.net/
   License: GPLv2 or later
@@ -465,19 +465,15 @@ class NumazuTakara100Sen
     
     function numazu_no_takara_100sen_admin_enqueue_scripts()
     {
-		wp_register_style( self::PLUGIN_ID . '-admin', plugins_url( 'css/admin.css', __FILE__ ), array(), '', 'all');
-		wp_enqueue_style( self::PLUGIN_ID . '-admin' );
-		wp_register_style( self::PLUGIN_ID . '-jquery-ui-1-12-1', 'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css', array(), '', 'all');
-		wp_enqueue_style( self::PLUGIN_ID . '-jquery-ui-1-12-1' );
-		wp_register_script( self::PLUGIN_ID . '-jquery-1-12-4', 'https://code.jquery.com/jquery-1.12.4.js', array(), '', true);
-		wp_enqueue_script( self::PLUGIN_ID . '-jquery-1-12-4' );
-		wp_register_script( self::PLUGIN_ID . '-jquery-ui-1-12-1', 'https://code.jquery.com/ui/1.12.1/jquery-ui.js', array(), '', true);
-		wp_enqueue_script( self::PLUGIN_ID . '-jquery-ui-1-12-1' );
-		wp_register_script( self::PLUGIN_ID . '-media_upload', plugins_url( 'js/media_upload.js', __FILE__ ), array( self::PLUGIN_ID . '-jquery-1-12-4', self::PLUGIN_ID . '-jquery-ui-1-12-1'), '', true);
-		wp_enqueue_script( self::PLUGIN_ID . '-media_upload' );
-		
-		if ( ! did_action( 'wp_enqueue_media' ) ) wp_enqueue_media();
-		
+	    global $pagenow;
+	    if( $pagenow === 'admin.php' && preg_match('/^numazu-no-takara-100sen-(.*)$/', $_GET['page']) ) :
+// 	    	var_dump($pagenow);
+	    	wp_register_style( self::PLUGIN_ID . '-admin', plugins_url( 'css/admin.css', __FILE__ ), array(), '', 'all');
+			wp_enqueue_style( self::PLUGIN_ID . '-admin' );
+			wp_register_script( self::PLUGIN_ID . '-media_upload', plugins_url( 'js/media_upload.js', __FILE__ ), array('jquery'), '', true);
+			wp_enqueue_script( self::PLUGIN_ID . '-media_upload' );
+			if ( ! did_action( 'wp_enqueue_media' ) ) wp_enqueue_media();
+	    endif;	    
 		wp_set_script_translations(
 			self::PLUGIN_ID . '-media_upload',
 			self::PLUGIN_ID,
